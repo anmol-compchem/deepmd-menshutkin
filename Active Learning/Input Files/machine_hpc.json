@@ -1,0 +1,75 @@
+{
+  "api_version": "1.0",
+  "deepmd_version": "2.2.7",
+  "train": {
+    "command": "dp",
+    "machine": {
+      "batch_type": "PBS",
+      "local_root": "./",
+      "remote_root": " ",
+      "context_type": "local"
+    },
+
+    "resources": {
+     "number_node": 1,
+      "cpu_per_node": 10,
+      "gpu_per_node": 1,
+      "group_size": 1,
+ 	"strategy": {
+      "customized_script_header_template_file": " "
+},
+	"source_list": [
+        "~/.bashrc"
+      ],
+    "batch_type": "PBS"
+    }
+  },
+  "model_devi": {
+    "command": "lmp",
+    "machine": {
+      "batch_type": "PBS",
+      "local_root": "./",
+      "remote_root": " ",
+      "context_type": "local"
+    },
+    "resources": {
+      "number_node": 1,
+      "cpu_per_node": 10,
+      "gpu_per_node": 1,
+      "group_size": 1,
+      "strategy": {
+      "customized_script_header_template_file": " "
+},
+      "source_list": [
+        "~/.bashrc"
+      ],
+      "batch_type": "PBS"
+    }
+  },
+  "fp": {
+    "command": "mpirun -np 20 cp2k.popt -i input.inp",
+    "machine": {
+      "batch_type": "PBS",
+      "local_root": "./",
+      "remote_root": " ",
+      "context_type": "local"
+    },
+    "resources": {
+      "number_node":  20,
+      "cpu_per_node": 5,
+      "gpu_per_node": 0,
+      "queue_name": "standard",
+      "group_size": 500,
+      "module_list": [
+          "compiler/gcc/11.2/openmpi/4.1.4"
+        ],
+	"strategy": {
+      "customized_script_header_template_file": " "
+},
+      "source_list": [
+        "~/.bashrc"
+      ],
+      "batch_type": "PBS"
+    }
+  }
+}

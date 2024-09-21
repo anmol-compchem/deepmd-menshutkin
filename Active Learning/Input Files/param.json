@@ -1,0 +1,155 @@
+{
+  "type_map": ["O", "H", "C", "Cl", "N"],
+  "mass_map": [15.999400, 1.007940, 12.010700, 35.452999, 14.006700],
+  "init_data_prefix": "./training_data",
+  "init_data_sys": [
+	 "training_data_1", "training_data_2", "training_data_3", "training_data_4", "training_data_5", "training_data_6", "training_data_7", "training_data_8", "training_data_9", "training_data_10", "training_data_11", "training_data_12", "training_data_13", "training_data_14", "training_data_15", "training_data_16", "training_data_17", "training_data_18", "training_data_19", "training_data_20", "training_data_21", "training_data_22", "training_data_23", "training_data_24", "training_data_25"],
+  "init_batch_size": [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 1, 1, 1, 1],
+  "sys_configs": [
+    ["./initial_config/pdt.lmp",
+     "./initial_config/rct.lmp" ]
+  ],
+  "sys_format": "lammps/lmp",
+  "numb_models": 4,
+  "default_training_param": {
+    "model": {
+      "descriptor": {
+        "type": "se_e2_a",
+        "rcut_smth": 5.5,
+        "rcut": 6,
+        "neuron": [32, 64, 128],
+        "resnet_dt": true,
+        "axis_neuron": 16
+      },
+      "fitting_net": {
+        "neuron": [240, 240, 240],
+        "resnet_dt": true
+      }
+    },
+    "learning_rate": {
+      "type": "exp",
+      "start_lr": 0.001,
+      "decay_steps": 5000,
+      "stop_lr": 3.51e-08
+    },
+    "loss": {
+      "type": "ener",
+      "start_pref_e": 0.02,
+      "limit_pref_e": 1,
+      "start_pref_f": 100,
+      "limit_pref_f": 1,
+      "start_pref_v": 0,
+      "limit_pref_v": 0
+    },
+    "training": {
+      "numb_steps": 1000000,
+      "disp_file": "lcurve.out",
+      "disp_freq": 100,
+      "save_freq": 500,
+      "save_ckpt": "model.ckpt"
+    }
+  },
+  "model_devi_dt": 0.0005,
+  "model_devi_skip": 0,
+  "model_devi_f_trust_lo": 0.10,
+  "model_devi_f_trust_hi": 0.20,
+  "model_devi_e_trust_lo": 10000000000,
+  "model_devi_e_trust_hi": 10000000000,
+  "model_devi_clean_traj": false,
+  "model_devi_merge_traj": true,
+  "model_devi_plumed": true,
+  "model_devi_jobs": [
+    {
+      "sys_idx": [0],
+      "trj_freq": 20,
+      "template": { "lmp": "input.lammps", "plm": "./plumed_meta.dat" },
+      "rev_mat": { "lmp": { "V_NSTEPS": [4000000], "V_TEMP": [300] }, "plm": {"V_TEMP":  [300], "V_STRIDE": [20]} } },
+
+    {
+      "sys_idx": [0],
+      "trj_freq": 20,
+      "template": { "lmp": "input.lammps", "plm": "./plumed_meta.dat" },
+      "rev_mat": { "lmp": { "V_NSTEPS": [4000000], "V_TEMP": [350] }, "plm": {"V_TEMP":  [350], "V_STRIDE": [20]} } },
+
+            {
+      "sys_idx": [0],
+      "trj_freq": 20,
+      "template": { "lmp": "input.lammps", "plm": "./plumed_meta.dat" },
+      "rev_mat": { "lmp": { "V_NSTEPS": [4000000], "V_TEMP": [400] }, "plm": {"V_TEMP":  [400], "V_STRIDE": [20]} } },
+
+    {
+      "sys_idx": [0],
+      "trj_freq": 20,
+      "template": { "lmp": "input.lammps", "plm": "./plumed_meta.dat" },
+      "rev_mat": { "lmp": { "V_NSTEPS": [4000000], "V_TEMP": [450] }, "plm": {"V_TEMP":  [450], "V_STRIDE": [20]} } }
+
+  ],
+  "fp_style": "cp2k",
+  "shuffle_poscar": false,
+  "fp_task_max": 2000,
+  "fp_task_min": 200,
+  "user_fp_params": {
+    "GLOBAL": {
+      "PROJECT": "DPGEN",
+      "RUN_TYPE": "ENERGY_FORCE"
+    },
+    "FORCE_EVAL": {
+      "METHOD": "Quickstep",
+      "DFT": {
+        "BASIS_SET_FILE_NAME": "GTH_BASIS_SETS",
+        "POTENTIAL_FILE_NAME": "GTH_POTENTIALS",
+        "MGRID": {
+          "CUTOFF": 400,
+          "REL_CUTOFF": 40,
+          "NGRIDS": 5
+        },
+        "QS": {
+          "EPS_DEFAULT": "1.0E-10"
+        },
+        "SCF": {
+          "SCF_GUESS": "ATOMIC",
+          "EPS_SCF": "1.0E-6",
+          "MAX_SCF": 30,
+          "OT": {
+            "MINIMIZER": "DIIS"
+          },
+          "OUTER_SCF": {
+            "EPS_SCF": "1.0E-6",
+            "MAX_SCF": "10"
+          }
+        },
+        "XC": {
+          "XC_FUNCTIONAL": {
+            "_": "PBE"
+          },
+		"VDW_POTENTIAL": {
+            "DISPERSION_FUNCTIONAL": "PAIR_POTENTIAL",
+            "PAIR_POTENTIAL":{
+               "TYPE": "DFTD3",
+		"PARAMETER_FILE_NAME": "dftd3.dat",
+		"R_CUTOFF": 16,
+               "REFERENCE_FUNCTIONAL": "PBE"}
+        }
+	}
+      },
+      "SUBSYS": {
+        "CELL": {
+          "A": "14.98 .0 .0",
+          "B": ".0 14.98 .0",
+          "C": ".0 .0 14.98"
+        },
+        "KIND": {
+          "_": ["C", "H", "N", "O", "Cl"],
+          "BASIS_SET": ["TZVP-GTH-q4", "TZVP-GTH-q1", "TZVP-GTH-q5", "TZVP-GTH-q6", "TZVP-GTH-q7"],
+          "POTENTIAL": ["GTH-PBE-q4", "GTH-PBE-q1", "GTH-PBE-q5", "GTH-PBE-q6", "GTH-PBE-q7"]
+        }
+      },
+      "PRINT": {
+        "FORCES": {
+          "_": "ON"
+        }
+      }
+    }
+  }
+}
+
