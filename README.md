@@ -11,10 +11,10 @@ Repository Structure
 This repository is organized into the following directories:
 
 1. Active Learning
-Input Files/: Contains input files for the active learning process.
-Product/: Contains files related to the active learning for product state.
-Reactant/: Contains files related to the active learning for reactant state.
-Reaction/: Files corresponding to the active learning for reaction process.
+Input Files: Contains input files for the active learning process.
+Product: Contains files related to the active learning for product state.
+Reactant: Contains files related to the active learning for reactant state.
+Reaction: Files corresponding to the active learning for reaction process.
 2. CP2K Files
 plumed_opes.dat: Plumed input file for the on-the-fly enhanced sampling using OPES (On-the-fly Probability Enhanced Sampling).
 plumed_product.dat: Plumed file specific to the product state.
@@ -23,12 +23,12 @@ product.xyz: XYZ file with atomic coordinates for the product state.
 reactant.xyz: XYZ file with atomic coordinates for the reactant state.
 react.inp: Input file for running CP2K simulations for the system.
 3. Machine Learning Model
-Product/: Contains ML potential files for the product state.
-Reactant/: Contains ML potential files for the reactant state.
-Reaction/: Contains ML potential files for the reaction state.
+Product: Contains ML potential files for the product state.
+Reactant: Contains ML potential files for the reactant state.
+Reaction: Contains ML potential files for the reaction state.
 solvent_cv.plumed: Collective variable (CV) file for the solvent coordination analysis.
 type_map.raw: Mapping file for atomic types.
 type.raw: Raw data file specifying atom types.
 4. Static DFT Files
-Optimisation Files/: DFT files for optimization of the system.
-Single Point Calculations/: DFT files for single point energy calculations.
+Optimisation Files: DFT files for optimization of the system.
+Single Point Calculations: DFT files for single point energy calculations.
